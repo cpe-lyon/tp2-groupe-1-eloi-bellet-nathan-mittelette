@@ -32,3 +32,7 @@ Les scripts sont stockés dans le dossier `scripts`
 # Exercice 3. Expressions rationnelles
 
 - Nom du script : `isAN.sh`
+
+# Exercice 4. Contrôle d’utilisateur
+
+- Nom du script ; `exo4.sh`
