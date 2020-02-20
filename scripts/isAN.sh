@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ "$1" == "" ]; then
+    echo Veuillez saisir un paramètre
+    exit 1
+fi
+
 #function de test
 function is_number() {
     re='^[+-]?[0-9]+([.][0-9]+)?$'
@@ -11,13 +16,10 @@ function is_number() {
 }
 
 #exécution de la fonction
-is_number
-echo $?
+is_number $1
 #test sur le résultat de la fonction
 if [ $? == "1" ]; then
-    echo "C'est un nombre"
-else 
     echo "Ce n'est pas un nombre"
+else
+    echo "C'est un nombre"
 fi
-
-
