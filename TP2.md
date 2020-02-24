@@ -59,7 +59,7 @@ Ajoutez le chemin vers `script` à votre `PATH` de manière permanente.
 
 > - Nom du script : `testpwd.sh`.
 
-```
+``` bash
 #!/bin/bash
 #Set password value
 PASSWORD="test"
@@ -76,9 +76,10 @@ fi
 
 ### Exercice 3. Expressions rationnelles
 
-Ecrivez un script qui prend un paramètre et utilise la fonction suivante pour vérifier que ce paramètreest un nombre réel :
+Ecrivez un script qui prend un paramètre et utilise la fonction suivante pour vérifier que ce paramètre est un nombre réel :
 
-```
+
+``` bash
 function is_number()
 {
     re='^[+-]?[0-9]+([.][0-9]+)?$'
@@ -94,17 +95,41 @@ Il aﬀichera un message d’erreur dans le cas contraire.
 
 > - Nom du script : `isAN.sh`.
 
-```
-script à écrire
+``` bash
+#!/bin/bash
+
+if [ "$1" == "" ]; then
+    echo Veuillez saisir un paramètre
+    exit 1
+fi
+
+#function de test
+function is_number() {
+    re='^[+-]?[0-9]+([.][0-9]+)?$'
+    if ! [[ $1 =~ $re ]]; then
+        return 1
+    else
+        return 0
+    fi
+}
+
+#exécution de la fonction
+is_number $1
+#test sur le résultat de la fonction
+if [ $? == "1" ]; then
+    echo "Ce n'est pas un nombre"
+else
+    echo "C'est un nombre"
+fi
 ```
 
 ### Exercice 4. Contrôle d’utilisateur
 
-Écrivez un script qui vérifie l’existence d’un utilisateur dont le nom est donné en paramètre du script. Si le script est appelé sans nom d’utilisateur, il aﬀiche le message : ”Utilisation :nom_du_scriptnom_utilisateur”,où `nom_du_scrip` test le nom de votre script récupéré automatiquement (si vous changez le nom de votre script, le message doit changer automatiquement)
+Écrivez un script qui vérifie l’existence d’un utilisateur dont le nom est donné en paramètre du script. Si le script est appelé sans nom d’utilisateur, il aﬀiche le message : ”Utilisation :nom_du_scriptnom_utilisateur”, où `nom_du_script` test le nom de votre script récupéré automatiquement (si vous changez le nom de votre script, le message doit changer automatiquement)
 
 > - Nom du script ; `userControl.sh`.
 
-```
+``` bash
 #!/bin/bash
 
 # Dans le cas ou la chaine est vide
@@ -129,7 +154,7 @@ fi
 
 > - Nom du script ; `factorielle.sh`.
 
-```
+``` bash
 #!/bin/bash
 
 # Gestion du cas ou il n'y a pas de paramètre pour la commaned
@@ -160,7 +185,7 @@ echo $factorial
 
 > - Nom du script : `plusOuMoins.sh`.
 
-```
+``` bash
 #!/bin/bash
 
 # On définit le nomber aléatoire enter 1000 et 1
@@ -188,11 +213,201 @@ done
 ### Exercice 7. Statistiques
 
 1) Écrivez un script qui prend en paramètres trois entiers (entre -100 et +100) et aﬀiche le min, le max et la moyenne. Vous pouvez réutiliser la fonction de l’exercice 3 pour vous assurer que les paramètres sont bien des entiers.
+
+> - Nom du script : `stats v1.sh`.
+
+``` bash
+#!/bin/bash
+
+# test si jamais il y a 3 arguments
+if [ $# -ne 3 ]; then
+    echo "3 arguments sont requis"
+    exit 1
+fi
+
+#function de test
+function is_number() {
+    re='^[+-]?[0-9]+([.][0-9]+)?$'
+    if ! [[ $1 =~ $re ]]; then
+        return 1
+    else
+        return 0
+    fi
+}
+
+min=0
+max=0
+moyenne=0
+i=1
+for var in "$@"; do
+    is_number $var
+    # Test si jamais c'est bien un nombre
+    if [ $? == "1" ]; then
+        echo $var "n'est pas un nombre"
+        exit 1
+    else
+    # Si jamais c'est la première itération de la boucle
+        if [ $i -eq 1 ]; then
+            min=$var
+            max=$var
+            moyenne=$((moyenne + $var))
+        else
+    # Sinon si jamais il est plus petit que le minimum on le remplace
+            if [ $var -lt $min ]; then
+                min=$var
+    # Si jamais il est plus grand que le max on le remplace
+            elif [ $var -gt $max ]; then
+                max=$var
+            fi
+    # On le rajoute à la moyenne pour la calculer après
+            moyenne=$((moyenne + $var))
+        fi
+
+    fi
+    i=$((i + 1))
+done
+
+# Calcul de la moyenne
+i=$((i - 1))
+moyenne=$((moyenne / $i))
+
+# Affichage
+echo min : $min
+echo max : $max
+echo moyenne : $moyenne
+```
+
 2) Généralisez le programme à un nombre quelconque de paramètres (pensez à `SHIFT`)
+
+> - Nom du script : `stats v2.sh`.
+
+``` bash
+#!/bin/bash
+
+# function de test
+function is_number() {
+    re='^[+-]?[0-9]+([.][0-9]+)?$'
+    if ! [[ $1 =~ $re ]]; then
+        return 1
+    else
+        return 0
+    fi
+}
+
+min=0
+max=0
+moyenne=0
+i=1
+for var in "$@"; do
+    is_number $var
+    # Test si jamais c'est bien un nombre
+    if [ $? == "1" ]; then
+        echo $var "n'est pas un nombre"
+        exit 1
+    else
+    # Si jamais c'est la première itération de la boucle
+        if [ $i -eq 1 ]; then
+            min=$var
+            max=$var
+            moyenne=$((moyenne + $var))
+        else
+    # Sinon si jamais il est plus petit que le minimum on le remplace
+            if [ $var -lt $min ]; then
+                min=$var
+    # Si jamais il est plus grand que le max on le remplace
+            elif [ $var -gt $max ]; then
+                max=$var
+            fi
+    # On le rajoute à la moyenne pour la calculer après
+            moyenne=$((moyenne + $var))
+        fi
+
+    fi
+    i=$((i + 1))
+done
+
+# Calcul de la moyenne
+i=$((i - 1))
+moyenne=$((moyenne / $i))
+
+# Affichage
+echo min : $min
+echo max : $max
+echo moyenne : $moyenne
+```
+
 3) Modifiez votre programme pour que les notes ne soient plus données en paramètres, mais saisies et stockées au fur et à mesure dans un tableau.
 
-> - Nom du script : `stats.sh`.
 
-```
-script à saisir
+> - Nom du script : `stats v3.sh`.
+
+``` bash
+#!/bin/bash
+
+#function de test
+function is_number() {
+    re='^[+-]?[0-9]+([.][0-9]+)?$'
+    if ! [[ $1 =~ $re ]]; then
+        return 1
+    else
+        return 0
+    fi
+}
+
+declare -a array
+while [ 1 -eq 1 ]; do
+    # Récupération de la saisi utilisateur
+    echo -n "Votre nombre (STOP pour arrêter) : "
+    read currentNumber
+
+    # Si jamais c'est la dernière saisie
+    if [ $currentNumber == "STOP" ]; then
+        break
+    fi
+
+    # Si jamais c'est un nombre on l'ajout auj tableau
+    is_number $currentNumber
+    if [ $? == "1" ]; then
+        echo $currentNumber "n'est pas un nombre"
+    else
+        array+=($currentNumber)
+    fi
+done
+
+# Affichage du tableau
+echo ${array[@]}
+
+min=0
+max=0
+moyenne=0
+i=1
+for var in "${array[@]}"; do
+    # Si jamais c'est la première itération de la boucle
+    if [ $i -eq 1 ]; then
+        min=$var
+        max=$var
+        moyenne=$((moyenne + $var))
+    else
+    # Sinon si jamais il est plus petit que le minimum on le remplace
+        if [ $var -lt $min ]; then
+            min=$var
+    # Si jamais il est plus grand que le max on le remplace
+        elif [ $var -gt $max ]; then
+            max=$var
+        fi
+    # On le rajoute à la moyenne pour la calculer après
+        moyenne=$((moyenne + $var))
+    fi
+    i=$((i + 1))
+done
+
+# Calcul de la moyenne
+i=$((i - 1))
+moyenne=$((moyenne / $i))
+
+# Affichage
+echo min : $min
+echo max : $max
+echo moyenne : $moyenne
+
 ```
