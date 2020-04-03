@@ -1,3 +1,5 @@
+## Nathan Mittelette - Eloi Bellet
+
 # TP 2 - Bash
 
 ### Exercice 1. Variables d’environnement
@@ -21,7 +23,7 @@
 
 > `MY_VAR=test` puis `set | grep MY_VAR` elle existe.
 
-5) Tapez ensuite la commande `bash`. Que fait-elle? La variable `MY_VAR` existe-t-elle? Expliquez. A la fin de cette question, tapez la commande `exit` pour revenir dans votre session initiale. 
+5) Tapez ensuite la commande `bash`. Que fait-elle? La variable `MY_VAR` existe-t-elle? Expliquez. A la fin de cette question, tapez la commande `exit` pour revenir dans votre session initiale.
 
 > Après avoir tapé la commande bash, la variable MY_VAR n'existe plus. La commande `bash` permet de créer un fils au terminal, la variable local n'est donc pas transféré.
 
@@ -37,17 +39,17 @@
 
 > `echo "Bonjour à vous deux, $NOMS"`.
 
-9) Quelle différence y a-t-il entre donner une valeur vide à une variable et l’utilisation de la commande `unset` ? 
+9) Quelle différence y a-t-il entre donner une valeur vide à une variable et l’utilisation de la commande `unset` ?
 
 > unset détruit la variable alors au lieu de lui donner un contenu vide.
 
-10) Utilisez la commande `echo` pour écrire `exactement` la phrase :$HOME =chemin (où chemin est votre dossier personnel `d’après bash`) 
+10) Utilisez la commande `echo` pour écrire `exactement` la phrase :$HOME =chemin (où chemin est votre dossier personnel `d’après bash`)
 
 > `echo \$HOME = $HOME`.
 
 ## Programmation Bash
 
-Vous enregistrerez vos scripts dans un dossier `script` que vous créerez dans votre répertoire personnel. Tous les scripts sont bien entendu à tester.  
+Vous enregistrerez vos scripts dans un dossier `script` que vous créerez dans votre répertoire personnel. Tous les scripts sont bien entendu à tester.
 Ajoutez le chemin vers `script` à votre `PATH` de manière permanente.
 
 > export PATH=/home/user/scripts:$PATH \
@@ -64,14 +66,14 @@ Ajoutez le chemin vers `script` à votre `PATH` de manière permanente.
 #Set password value
 PASSWORD="test"
 # Read Password
-echo -n "Password : " 
+echo -n "Password : "
 read -s currentpassword
 # Comparaison
-if [ "$currentpassword" = "$PASSWORD" ]; then 
+if [ "$currentpassword" = "$PASSWORD" ]; then
     echo "Bien joué"
-else 
+else
     echo "Perdu"
-fi 
+fi
 ```
 
 ### Exercice 3. Expressions rationnelles
@@ -167,7 +169,7 @@ fi
 counter=$1
 factorial=1
 
-# Tant que le compteur est plus grand que 0 on multiplie 
+# Tant que le compteur est plus grand que 0 on multiplie
 # factoriel par le compteur et on le décrémente
 while [ $counter -gt 0 ]
 do
